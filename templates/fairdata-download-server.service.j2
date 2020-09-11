@@ -1,0 +1,21 @@
+[Unit]
+Description=Fairdata Download Server
+Requires=fairdata-download-server.socket
+After=network.target
+
+[Service]
+Type=notify
+User={{ application_user }}
+Group={{ application_group }}
+RuntimeDirectory=/run/gunicorn
+EnvironmentFile=/etc/conf.d/fairdata-download-server.env
+WorkingDirectory=/opt/fairdata-download-service
+ExecStart=/bin/sh -c '${GUNICORN_BIN} --access-logfile ${DOWNLOAD_SERVER_ACCESS_LOG} \
+  --error-logfile ${DOWNLOAD_SERVER_ERROR_LOG} download:flask_app'
+ExecReload=/bin/kill -s HUP ${MAINPID}
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

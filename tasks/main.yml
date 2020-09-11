@@ -1,0 +1,14 @@
+---
+- name: Include Download Service repository tasks
+  include_tasks: "download-repository.yml"
+  tags: download-repository
+
+- name: Include Download Server service tasks
+  include_tasks: "download-server-service.yml"
+  when: daemonize_server
+  tags: download-server
+
+- name: Include Generator service tasks
+  include_tasks: "download-generator-service.yml"
+  when: daemonize_server
+  tags: download-generator

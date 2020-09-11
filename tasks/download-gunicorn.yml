@@ -1,0 +1,27 @@
+---
+- name: Install systemd files
+  template:
+    src: '{{ item.file }}.j2'
+    dest: '{{ item.location }}/{{ item.file }}'
+    mode: '0644'
+  with_items:
+  - file: fairdata-download-server.service
+    location: /etc/systemd/system
+  - file: fairdata-download-server.socket
+    location: /etc/systemd/system
+  - file: fairdata-download-server.env
+    location: /etc/conf.d
+  become: yes
+  tags: gunicorn
+
+- name: Ensure Download Server SystemD service is started
+  systemd:
+    name: '{{ item }}'
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  with_items:
+  - fairdata-download-server.service
+  - fairdata-download-server.socket
+  tags: gunicorn

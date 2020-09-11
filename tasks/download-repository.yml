@@ -1,0 +1,54 @@
+---
+- name: Ensure directories exist
+  file:
+    path: '{{ item }}'
+    owner: '{{ application_user }}'
+    group: '{{ application_group }}'
+    state: 'directory'
+    mode: '0755'
+  with_items:
+  - '/etc/fairdata-download-service'
+  - '/var/log/fairdata-download-service'
+
+- name: Fetch Download repository sources with git
+  git:
+    repo: '{{ repo_url }}'
+    version: '{{ repo_version }}'
+    key_file: '{{ repo_deploy_key }}'
+    accept_hostkey: 'yes'
+    dest: '{{ repo_dest }}'
+  notify: Restart Download Server
+  tags: download-repository
+
+- name: Remove old virtual environment
+  file:
+    path: '{{ repo_dest }}/venv'
+    state: 'absent'
+  become: yes
+  notify: Restart Download Server
+  tags: download-requirements
+
+- name: Install Download requirements in virtualenv with pip
+  pip:
+    requirements: '{{ repo_dest }}/requirements.txt'
+    virtualenv: '{{ repo_dest }}/venv'
+    virtualenv_command: '{{ virtualenv_binary }}'
+  notify: Restart Download Server
+  tags: download-requirements
+
+- name: Install Download dev requirements in virtualenv with pip
+  pip:
+    requirements: '{{ repo_dest }}/requirements-dev.txt'
+    virtualenv: '{{ repo_dest }}/venv'
+    virtualenv_command: '{{ virtualenv_binary }}'
+  when: application_environment != 'production'
+  notify: Restart Download Server
+  tags: download-requirements
+
+- name: Copy development environment file to Download repo
+  template:
+    src: 'fairdata-download-service-devel.env.j2'
+    dest: '{{ repo_dest }}/.env'
+    mode: '0640'
+  when: not daemonize_server
+  tags: download-development

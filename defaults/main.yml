@@ -1,0 +1,42 @@
+---
+# Virtualenv binary
+virtualenv_binary: '{{ download_virtualenv_binary | default("/usr/local/bin/virtualenv") }}'
+
+# Repository data
+repo_url: '{{ download_repo_url | default("ssh://git@gitlab.ci.csc.fi:10022/fairdata/fairdata-download-service.git") }}'
+repo_version: '{{ download_repo_version | default("master") }}'
+repo_dest: '{{ download_repo_dest | default("/opt/fairdata-download-service") }}'
+repo_deploy_key: '{{ download_repo_deploy_key | default("/root/.ssh/id_deploy") }}'
+
+# Volume mounts
+cache_root: '{{ download_cache_root | default("/opt/fairdata-download-service/download") }}'
+ida_storage_root: '{{ download_ida_storage_root | default("/opt/fairdata-download-service/ida-data") }}'
+
+# Download application configuration
+application_user: download
+application_group: download
+application_environment: development
+application_service_settings: '/etc/fairdata-download-service/settings.cfg'
+application_service_metax_url: '{{ download_application_service_metax_url | default("http://localhost/") }}'
+
+host: 0.0.0.0
+public_port: 4430
+
+# Rabbitmq config
+rabbitmq_user: download
+rabbitmq_pass: download
+
+# SystemD services
+daemonize_server: '{{ download_daemonize_server | default(False) }}'
+daemonize_generator: '{{ download_daemonize_generator | default(False) }}'
+
+# Nginx config
+nginx_url_prefix: v1
+nginx_ssl_certificate: '{{ download_nginx_ssl_certificate | default("/etc/pki/tls/certs/download.local.crt") }}'
+nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/etc/pki/tls/private/download.local.key") }}'
+
+# Gunicorn config
+gunicorn_socket: '/run/fairdata-download-server.sock'
+
+# Celery config
+celeryd_concurrency: 3
