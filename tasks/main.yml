@@ -3,6 +3,10 @@
   include_tasks: "download-user.yml"
   tags: download-users
 
+- name: Include Download Service sqlite tasks
+  include_tasks: "download-sqlite.yml"
+  tags: download-sqlite
+
 - name: Include Download Service repository tasks
   include_tasks: "download-repository.yml"
   tags: download-repository
