@@ -10,8 +10,10 @@ repo_dest_root: /opt
 repo_dest: '{{ repo_dest_root }}/fairdata-download-service'
 
 # Volume mounts
-cache_root: '{{ download_cache_root | default("/opt/fairdata-download-service/download") }}'
-ida_storage_root: '{{ download_ida_storage_root | default("/opt/fairdata-download-service/ida-data") }}'
+mount_volumes: false
+ida_storage_source: /mnt/storage_vol01/ida
+cache_root: /mnt/storage_vol04/download-service-cache
+ida_storage_root: /mnt/download-ida-storage
 
 # Download application configuration
 application_runtime_directory: '/run/fairdata-download-service'

@@ -3,6 +3,10 @@
   include_tasks: "download-user.yml"
   tags: download-users
 
+- name: Include Download Service volume tasks
+  include_tasks: "download-mounts.yml"
+  tags: download-mounts
+
 - name: Include Download Service sqlite tasks
   include_tasks: "download-sqlite.yml"
   tags: download-sqlite
