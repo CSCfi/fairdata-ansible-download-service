@@ -21,6 +21,7 @@ application_service_metax_url: '{{ download_application_service_metax_url | defa
 
 host: 0.0.0.0
 public_port: 4430
+internal_port: 4431
 
 # Rabbitmq config
 rabbitmq_user: download
@@ -31,7 +32,8 @@ daemonize_server: '{{ download_daemonize_server | default(False) }}'
 daemonize_generator: '{{ download_daemonize_generator | default(False) }}'
 
 # Nginx config
-nginx_url_prefix: v1
+nginx_url_prefix: /v1
+nginx_custom_certificates: False
 nginx_ssl_certificate: '{{ download_nginx_ssl_certificate | default("/etc/pki/tls/certs/download.local.crt") }}'
 nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/etc/pki/tls/private/download.local.key") }}'
 
