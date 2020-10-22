@@ -10,9 +10,9 @@
   - file: fairdata-download-server.socket
     location: /etc/systemd/system
   - file: fairdata-download-server.env
-    location: /etc/conf.d
+    location: '{{ application_config_directory }}'
   become: yes
-  tags: gunicorn
+  tags: download-server
 
 - name: Ensure Download Server SystemD service is started
   systemd:
@@ -24,4 +24,4 @@
   with_items:
   - fairdata-download-server.service
   - fairdata-download-server.socket
-  tags: gunicorn
+  tags: download-server

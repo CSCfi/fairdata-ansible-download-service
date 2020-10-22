@@ -6,8 +6,8 @@ After=network.target
 Type=forking
 User={{ application_user }}
 Group={{ application_group }}
-EnvironmentFile=/etc/conf.d/fairdata-download-generator.env
-WorkingDirectory=/opt/fairdata-download-service
+EnvironmentFile={{ application_config_directory }}/fairdata-download-generator.env
+WorkingDirectory={{ repo_dest }}
 ExecStart=/bin/sh -c '${CELERY_BIN} multi start ${CELERYD_NODES} \
   -A ${CELERY_APP} --pidfile=${CELERYD_PID_FILE} \
   --logfile=${CELERYD_LOG_FILE} --loglevel=${CELERYD_LOG_LEVEL} ${CELERYD_OPTS}'

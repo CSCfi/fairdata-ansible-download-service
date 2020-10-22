@@ -3,6 +3,9 @@ server {
     listen       [::]:{{ public_port }} ssl http2 default_server;
     server_name  {{ host }};
 
+    access_log  {{ application_log_directory }}/download-nginx-access.log;
+    error_log  {{ application_log_directory }}/download-nginx-error.log;
+
 {% if nginx_custom_certificates %}
     ssl_certificate {{ nginx_ssl_certificate }};
     ssl_certificate_key {{ nginx_ssl_certificate_key }};
@@ -22,6 +25,9 @@ server {
     listen       {{ internal_port }} ssl http2 default_server;
     listen       [::]:{{ internal_port }} ssl http2 default_server;
     server_name  {{ host }};
+
+    access_log  {{ application_log_directory }}/download-nginx-access.log;
+    error_log  {{ application_log_directory }}/download-nginx-error.log;
 
 {% if nginx_custom_certificates %}
     ssl_certificate {{ nginx_ssl_certificate }};

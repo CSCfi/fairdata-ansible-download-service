@@ -1,22 +1,4 @@
 ---
-- name: Ensure Download Generator runtime directory exists with right permission
-  file:
-    path: '/var/run/fairdata-download-service'
-    owner: '{{ application_user }}'
-    group: '{{ application_group }}'
-    state: 'directory'
-    mode: '0755'
-  become: yes
-  tags: generator-service
-
-- name: Ensure Download Generator service configuration directory exists
-  file:
-    path: '/etc/conf.d'
-    state: 'directory'
-    mode: '0755'
-  become: yes
-  tags: generator-service
-
 - name: Install Download Generator service files
   template:
     src: '{{ item.file }}.j2'
@@ -26,8 +8,9 @@
   - file: fairdata-download-generator.service
     location: /etc/systemd/system
   - file: fairdata-download-generator.env
-    location: /etc/conf.d
+    location: '{{ application_config_directory }}'
   become: yes
+  notify: Restart Download Generator
   tags: generator-service
 
 - name: Ensure Download Generator service is started

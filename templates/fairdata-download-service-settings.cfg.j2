@@ -1,6 +1,18 @@
 # Volumes
-DOWNLOAD_CACHE_DIR = '{{ cache_root }} '
+DOWNLOAD_CACHE_DIR = '{{ cache_root }}'
 IDA_DATA_ROOT = '{{ ida_storage_root }}'
+
+# Database
+DATABASE_FILE = '{{ cache_root }}/download.db'
+
+# Message queue
+MQ_HOST = '{{ application_rabbitmq_host }}'
+MQ_VHOST = '{{ application_rabbitmq_vhost }}'
+MQ_USER = '{{ application_rabbitmq_user }}'
+MQ_PASS = '{{ application_rabbitmq_pass }}'
+
+# JWT
+JWT_SECRET = '{{ application_jwt_secret }}'
 
 # Metax
 METAX_URL = '{{ application_service_metax_url }}'

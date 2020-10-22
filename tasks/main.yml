@@ -1,7 +1,15 @@
 ---
+- name: Include Download Service user tasks
+  include_tasks: "download-user.yml"
+  tags: download-users
+
 - name: Include Download Service repository tasks
   include_tasks: "download-repository.yml"
   tags: download-repository
+
+- name: Include Download Service configuration tasks
+  include_tasks: "download-config.yml"
+  tags: download-config
 
 - name: Include Download Server service tasks
   include_tasks: "download-server-service.yml"
