@@ -37,6 +37,15 @@
   register: bind_mount_res
   tags: download-mounts
 
+- name: Ensure ida bind mountpoint exists
+  file:
+    path: '{{ ida_storage_root }}'
+    state: 'directory'
+    mode: '0770'
+  become: yes
+  when: bind_mount_res.changed == True
+  tags: download-mounts
+
 - name: Bind mount IDA storage volume
   command: 'bindfs --resolve-symlinks --perms=a-w --mirror-only={{ application_user }} {{ ida_storage_source }} {{ ida_storage_root }}'
   become: yes
