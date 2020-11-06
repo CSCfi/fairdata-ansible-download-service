@@ -11,6 +11,7 @@
     path: '{{ cache_root }}'
     owner: '{{ application_user }}'
     group: '{{ application_group }}'
+    recurse: yes
     state: 'directory'
     mode: '0750'
   become: yes
