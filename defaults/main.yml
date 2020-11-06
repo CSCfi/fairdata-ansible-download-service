@@ -48,5 +48,6 @@ nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/et
 gunicorn_socket: '{{ application_runtime_directory }}/fairdata-download-server.sock'
 
 # Celery config
+celeryd_nodes: 'generator1'
 celeryd_concurrency: 3
 celeryd_log_level: 'INFO'
