@@ -25,7 +25,6 @@
   pip:
     requirements: '{{ repo_dest }}/requirements.txt'
     virtualenv: '{{ application_runtime_directory }}/venv'
-    virtualenv_python: '{{ virtualenv_python }}'
     virtualenv_command: '{{ virtualenv_command }}'
   become: yes
   become_user: '{{ application_user }}'
@@ -36,7 +35,6 @@
   pip:
     requirements: '{{ repo_dest }}/requirements-dev.txt'
     virtualenv: '{{ application_runtime_directory }}/venv'
-    virtualenv_python: '{{ virtualenv_python }}'
     virtualenv_command: '{{ virtualenv_command }}'
   when: application_environment != 'production'
   become: yes

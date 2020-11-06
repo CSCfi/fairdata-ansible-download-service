@@ -1,6 +1,5 @@
 ---
 # Python
-virtualenv_python: python3
 virtualenv_command: virtualenv
 
 # Repository data
