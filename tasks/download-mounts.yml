@@ -32,7 +32,7 @@
   mount:
     path: '{{ ida_storage_root }}'
     src: '{{ ida_storage_source }}'
-    fstype: ext4
+    fstype: 'fuse.bindfs'
     state: present
   become: yes
   register: bind_mount_res
