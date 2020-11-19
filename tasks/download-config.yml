@@ -19,7 +19,9 @@
     state: 'absent'
   become: yes
   notify: Restart Download Server
-  tags: download-config
+  tags:
+    - download-config
+    - virtualenv
 
 - name: Install Download requirements in virtualenv with pip
   pip:
@@ -29,7 +31,9 @@
   become: yes
   become_user: '{{ application_user }}'
   notify: Restart Download Server
-  tags: download-config
+  tags:
+    - download-config
+    - virtualenv
 
 - name: Install Download dev requirements in virtualenv with pip
   pip:
@@ -40,7 +44,9 @@
   become: yes
   become_user: '{{ application_user }}'
   notify: Restart Download Server
-  tags: download-config
+  tags:
+    - download-config
+    - virtualenv
 
 - name: Copy service settings
   template:
