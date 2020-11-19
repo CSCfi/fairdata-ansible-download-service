@@ -15,7 +15,7 @@
 
 - name: Remove old virtual environment
   file:
-    path: '{{ application_runtime_directory }}/venv'
+    path: '{{ application_config_directory }}/venv'
     state: 'absent'
   become: yes
   notify: Restart Download Server
@@ -26,7 +26,7 @@
 - name: Install Download requirements in virtualenv with pip
   pip:
     requirements: '{{ repo_dest }}/requirements.txt'
-    virtualenv: '{{ application_runtime_directory }}/venv'
+    virtualenv: '{{ application_config_directory }}/venv'
     virtualenv_command: '{{ virtualenv_command }}'
   become: yes
   become_user: '{{ application_user }}'
@@ -38,7 +38,7 @@
 - name: Install Download dev requirements in virtualenv with pip
   pip:
     requirements: '{{ repo_dest }}/requirements-dev.txt'
-    virtualenv: '{{ application_runtime_directory }}/venv'
+    virtualenv: '{{ application_config_directory }}/venv'
     virtualenv_command: '{{ virtualenv_command }}'
   when: application_environment != 'production'
   become: yes
