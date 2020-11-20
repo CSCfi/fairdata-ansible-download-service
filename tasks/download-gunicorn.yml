@@ -11,6 +11,8 @@
     location: /etc/systemd/system
   - file: fairdata-download-server.env
     location: '{{ application_config_directory }}'
+  - file: fairdata-download-server-gunicorn.py
+    location: '{{ application_config_directory }}'
   become: yes
   tags: download-server
 

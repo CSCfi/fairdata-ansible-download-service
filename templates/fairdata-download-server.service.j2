@@ -9,8 +9,7 @@ User={{ application_user }}
 Group={{ application_group }}
 EnvironmentFile={{ application_config_directory }}/fairdata-download-server.env
 WorkingDirectory={{ repo_dest }}
-ExecStart=/bin/sh -c '${GUNICORN_BIN} --access-logfile ${DOWNLOAD_SERVER_ACCESS_LOG} \
-  --error-logfile ${DOWNLOAD_SERVER_ERROR_LOG} download:flask_app'
+ExecStart=/bin/sh -c '${GUNICORN_BIN} --config ${GUNICORN_CONF} download:flask_app'
 ExecReload=/bin/kill -s HUP ${MAINPID}
 KillMode=mixed
 TimeoutStopSec=5

@@ -46,6 +46,8 @@ nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/et
 
 # Gunicorn config
 gunicorn_socket: '{{ application_runtime_directory }}/fairdata-download-server.sock'
+gunicorn_workers: 1
+gunicorn_threads: 4
 
 # Celery config
 celeryd_nodes: 'generator1'
