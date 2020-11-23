@@ -51,5 +51,6 @@ gunicorn_threads: 4
 
 # Celery config
 celeryd_nodes: 'generator1'
-celeryd_concurrency: 3
+celeryd_min_workers: 1
+celeryd_max_workers: 10
 celeryd_log_level: 'INFO'
