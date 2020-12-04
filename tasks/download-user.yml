@@ -1,0 +1,22 @@
+---
+- name: Ensure the Download Service user exists
+  user:
+    name: '{{ application_user }}'
+    shell: /bin/bash
+  become: yes
+  tags: download-users
+
+- name: Ensure environment variables are defined for application user bash profile
+  lineinfile:
+    path: '/home/{{ application_user }}/.bash_profile'
+    regexp: '^export {{ item.var }}='
+    line: 'export {{ item.var }}={{ item.val }}'
+  with_items:
+  - var: FLASK_APP
+    val: download
+  - var: FLASK_ENV
+    val: '{{ application_environment }}'
+  - var: DOWNLOAD_SERVICE_SETTINGS
+    val: '{{ application_service_settings }}'
+  become: yes
+  tags: download-users

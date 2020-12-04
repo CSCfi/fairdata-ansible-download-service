@@ -1,0 +1,16 @@
+---
+- name: Ensure Nginx is installed
+  yum:
+    name: 'nginx'
+    state: 'latest'
+  become: yes
+  tags: download-server
+
+- name: Install Download Server Nginx configuration
+  template:
+    src: 'fairdata-download-server-nginx.conf.j2'
+    dest: '/etc/nginx/conf.d/download-server.conf'
+    mode: '0644'
+  become: yes
+  notify: Restart Nginx
+  tags: download-server

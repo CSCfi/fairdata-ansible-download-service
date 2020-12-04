@@ -1,0 +1,30 @@
+---
+- name: Include Download Service user tasks
+  include_tasks: "download-user.yml"
+  tags: download-users
+
+- name: Include Download Service volume tasks
+  include_tasks: "download-mounts.yml"
+  tags: download-mounts
+
+- name: Include Download Service sqlite tasks
+  include_tasks: "download-sqlite.yml"
+  tags: download-sqlite
+
+- name: Include Download Service repository tasks
+  include_tasks: "download-repository.yml"
+  tags: download-repository
+
+- name: Include Download Service configuration tasks
+  include_tasks: "download-config.yml"
+  tags: download-config
+
+- name: Include Download Server service tasks
+  include_tasks: "download-server-service.yml"
+  when: daemonize_server
+  tags: download-server
+
+- name: Include Generator service tasks
+  include_tasks: "download-generator-service.yml"
+  when: daemonize_server
+  tags: download-generator

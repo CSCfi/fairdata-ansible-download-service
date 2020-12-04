@@ -1,0 +1,11 @@
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+
+stages:
+  - deploy
+
+update_deployment:
+  stage: deploy
+  script:
+    - ansible-galaxy role install --force -r $ANSIBLE_GALAXY_REQUIREMENTS

@@ -1,0 +1,11 @@
+[Unit]
+Description=UNIX socket for Fairdata Download Server
+
+[Socket]
+ListenStream={{ gunicorn_socket }}
+SocketMode=0666
+SocketUser={{ application_user }}
+SocketGroup={{ application_group }}
+
+[Install]
+WantedBy=sockets.target

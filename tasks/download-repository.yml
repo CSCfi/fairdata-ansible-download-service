@@ -1,0 +1,35 @@
+---
+- name: Ensure repository directory exists
+  file:
+    path: '{{ repo_dest }}'
+    owner: '{{ deployer }}'
+    state: 'directory'
+    mode: '0755'
+  become: yes
+  tags: download-repository
+
+- name: Fetch Download repository sources with git
+  git:
+    repo: '{{ repo_url }}'
+    version: '{{ repo_version }}'
+    key_file: '{{ repo_deploy_key }}'
+    accept_hostkey: 'yes'
+    dest: '{{ repo_dest }}'
+  when: repo_install_method == 'pull'
+  tags: download-repository
+
+- name: Push local Download repository
+  copy:
+    src: '{{ repo_src }}'
+    dest: '{{ repo_dest_root }}'
+  when: repo_install_method == 'push'
+  tags: download-repository
+
+- name: Ensure repository contents are owned by the application user group
+  file:
+    path: '{{ repo_dest }}'
+    group: '{{ application_group }}'
+    recurse: yes
+    state: directory
+  become: yes
+  tags: download-repository

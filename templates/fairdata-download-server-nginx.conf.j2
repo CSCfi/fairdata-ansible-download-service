@@ -1,0 +1,49 @@
+server {
+    listen       {{ public_port }} ssl http2 default_server;
+    listen       [::]:{{ public_port }} ssl http2 default_server;
+    server_name  {{ host }};
+
+    access_log  {{ application_log_directory }}/download-nginx-access.log;
+    error_log  {{ application_log_directory }}/download-nginx-error.log;
+
+{% if nginx_custom_certificates %}
+    ssl_certificate {{ nginx_ssl_certificate }};
+    ssl_certificate_key {{ nginx_ssl_certificate_key }};
+{% endif %}
+
+    location {{ nginx_url_prefix }}/download {
+        rewrite {{ nginx_url_prefix }}/(.*) /$1  break;
+        proxy_pass http://unix:{{ gunicorn_socket }};
+    }
+
+    location /download {
+        proxy_pass http://unix:{{ gunicorn_socket }};
+    }
+}
+
+server {
+    listen       {{ internal_port }} ssl http2 default_server;
+    listen       [::]:{{ internal_port }} ssl http2 default_server;
+    server_name  {{ host }};
+
+    access_log  {{ application_log_directory }}/download-nginx-access.log;
+    error_log  {{ application_log_directory }}/download-nginx-error.log;
+
+{% if nginx_custom_certificates %}
+    ssl_certificate {{ nginx_ssl_certificate }};
+    ssl_certificate_key {{ nginx_ssl_certificate_key }};
+{% endif %}
+
+{% if application_environment != 'production' %}
+    add_header Content-Security-Policy "default-src 'self' * 'unsafe-inline' data: 'unsafe-eval'";
+{% endif %}
+
+    location {{ nginx_url_prefix }} {
+        rewrite {{ nginx_url_prefix }}/(.*) /$1  break;
+        proxy_pass http://unix:{{ gunicorn_socket }};
+    }
+
+    location / {
+        proxy_pass http://unix:{{ gunicorn_socket }};
+    }
+}
