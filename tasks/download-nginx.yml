@@ -9,8 +9,17 @@
 - name: Install Download Server Nginx configuration
   template:
     src: 'fairdata-download-server-nginx.conf.j2'
-    dest: '/etc/nginx/conf.d/download-server.conf'
+    dest: '/etc/nginx/sites-available/download-server.conf'
     mode: '0644'
   become: yes
   notify: Restart Nginx
   tags: download-server
+
+- name: Enable Download Server Nginx configuration
+  file:
+    path: '/etc/nginx/sites-enabled/download-server.conf'
+    src: '/etc/nginx/sites-available/download-server.conf'
+    state: link
+  become: yes
+  notify: Restart Nginx
+  tags: download-nginx
