@@ -1,5 +1,5 @@
 ---
-- name: Ensure directories exist
+- name: Ensure directories exist with correct permissions
   file:
     path: '{{ item }}'
     owner: '{{ application_user }}'
@@ -9,7 +9,6 @@
   with_items:
   - '{{ application_config_directory }}'
   - '{{ application_log_directory }}'
-  - '{{ application_runtime_directory }}'
   become: yes
   tags: download-config
 
@@ -56,14 +55,4 @@
     group: '{{ application_group }}'
     mode: '0640'
   become: yes
-  when: daemonize_server
-  tags: download-config
-
-- name: Copy development environment file to Download repo
-  template:
-    src: 'fairdata-download-service-devel.env.j2'
-    dest: '{{ repo_dest }}/.env'
-    mode: '0640'
-  become: yes
-  when: not daemonize_server
   tags: download-config

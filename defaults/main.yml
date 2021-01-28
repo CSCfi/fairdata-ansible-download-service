@@ -1,4 +1,9 @@
 ---
+# Role control
+prepare_application: True
+deploy_application: True
+configure_nginx: True
+
 # Python
 virtualenv_command: virtualenv
 
@@ -8,17 +13,14 @@ repo_version: master
 repo_dest_root: /opt
 repo_dest: '{{ repo_dest_root }}/fairdata-download-service'
 
-# Volume mounts
-mount_volumes: false
-ida_storage_source: /mnt/storage_vol01/ida
-cache_root: /mnt/storage_vol04/download-service-cache
-ida_storage_root: /mnt/download-ida-storage
-
-# Download application configuration
-application_runtime_directory: '/run/fairdata-download-service'
+application_runtime_directory: '/run'
 application_config_directory: '/etc/fairdata-download-service'
 application_log_directory: '/var/log/fairdata-download-service'
+
+# Download application configuration
 application_service_settings: '{{ application_config_directory }}/settings.cfg'
+application_cache_root: '/mnt/download-service-cache'
+application_ida_storage_root: '/mnt/download-ida-storage'
 application_user: download
 application_group: download
 application_environment: development
@@ -29,23 +31,17 @@ application_rabbitmq_pass: download
 application_jwt_secret: secret
 
 host: 0.0.0.0
-public_port: 4430
-internal_port: 4431
-
-# Rabbitmq config
-
-# SystemD services
-daemonize_server: '{{ download_daemonize_server | default(False) }}'
-daemonize_generator: '{{ download_daemonize_generator | default(False) }}'
 
 # Nginx config
 nginx_url_prefix: /v1
+nginx_public_port: 4430
+nginx_internal_port: 4431
 nginx_custom_certificates: False
 nginx_ssl_certificate: '{{ download_nginx_ssl_certificate | default("/etc/pki/tls/certs/download.local.crt") }}'
 nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/etc/pki/tls/private/download.local.key") }}'
 
 # Gunicorn config
-gunicorn_socket: '{{ application_runtime_directory }}/fairdata-download-server.sock'
+gunicorn_socket: '{{ application_runtime_directory }}/fairdata-download-server/fairdata-download-server.sock'
 gunicorn_workers: 1
 gunicorn_threads: 4
 

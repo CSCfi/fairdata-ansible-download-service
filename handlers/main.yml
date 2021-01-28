@@ -4,18 +4,15 @@
     name: 'nginx'
     state: 'restarted'
   become: yes
-  when: daemonize_server
 
 - name: Restart Download Server
   systemd:
     name: 'fairdata-download-server'
     state: 'restarted'
   become: yes
-  when: daemonize_server
 
 - name: Restart Download Generator
   systemd:
     name: 'fairdata-download-generator'
     state: 'restarted'
   become: yes
-  when: daemonize_generator
