@@ -1,7 +1,0 @@
----
-- name: Ensure Sqlite is installed
-  yum: 
-    name: 'sqlite'
-    state: 'latest'
-  become: yes
-  tags: download-sqlite

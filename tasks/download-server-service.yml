@@ -1,8 +1,0 @@
----
-- name: Include Gunicorn tasks
-  include_tasks: "download-gunicorn.yml"
-  tags: download-server
-
-- name: Include Nginx tasks
-  include_tasks: "download-nginx.yml"
-  tags: download-server

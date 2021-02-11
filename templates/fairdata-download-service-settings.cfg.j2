@@ -1,9 +1,9 @@
 # Volumes
-DOWNLOAD_CACHE_DIR = '{{ cache_root }}'
-IDA_DATA_ROOT = '{{ ida_storage_root }}'
+DOWNLOAD_CACHE_DIR = '{{ application_cache_root }}'
+IDA_DATA_ROOT = '{{ application_ida_storage_root }}'
 
 # Database
-DATABASE_FILE = '{{ cache_root }}/download.db'
+DATABASE_FILE = '{{ application_cache_root }}/download.db'
 
 # Message queue
 MQ_HOST = '{{ application_rabbitmq_host }}'

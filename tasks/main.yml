@@ -1,30 +1,38 @@
 ---
 - name: Include Download Service user tasks
   include_tasks: "download-user.yml"
+  when: prepare_application
   tags: download-users
 
-- name: Include Download Service volume tasks
-  include_tasks: "download-mounts.yml"
-  tags: download-mounts
-
-- name: Include Download Service sqlite tasks
-  include_tasks: "download-sqlite.yml"
+- name: Ensure Sqlite is installed
+  yum:
+    name: 'sqlite'
+    state: 'latest'
+  become: yes
+  when: prepare_application
   tags: download-sqlite
 
 - name: Include Download Service repository tasks
   include_tasks: "download-repository.yml"
+  when: deploy_application
   tags: download-repository
 
 - name: Include Download Service configuration tasks
   include_tasks: "download-config.yml"
+  when: deploy_application
   tags: download-config
 
-- name: Include Download Server service tasks
-  include_tasks: "download-server-service.yml"
-  when: daemonize_server
+- name: Include Download Server SystemD tasks
+  include_tasks: "download-server-systemd.yml"
+  when: deploy_application
   tags: download-server
 
-- name: Include Generator service tasks
-  include_tasks: "download-generator-service.yml"
-  when: daemonize_server
+- name: Include Download Generator SystemD tasks
+  include_tasks: "download-generator-systemd.yml"
+  when: deploy_application
   tags: download-generator
+
+- name: Include Nginx tasks
+  include_tasks: "download-nginx.yml"
+  when: configure_nginx
+  tags: download-nginx

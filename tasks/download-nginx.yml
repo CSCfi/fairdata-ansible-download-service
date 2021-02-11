@@ -1,16 +1,28 @@
 ---
-- name: Ensure Nginx is installed
-  yum:
-    name: 'nginx'
-    state: 'latest'
+- name: Ensure log directory exist with correct permissions
+  file:
+    path: '{{ application_log_directory }}'
+    owner: '{{ application_user }}'
+    group: '{{ application_group }}'
+    state: 'directory'
+    mode: '0755'
   become: yes
-  tags: download-server
+  tags: download-nginx
 
 - name: Install Download Server Nginx configuration
   template:
     src: 'fairdata-download-server-nginx.conf.j2'
-    dest: '/etc/nginx/conf.d/download-server.conf'
+    dest: '/etc/nginx/sites-available/download-server.conf'
     mode: '0644'
   become: yes
   notify: Restart Nginx
-  tags: download-server
+  tags: download-nginx
+
+- name: Enable Download Server Nginx configuration
+  file:
+    path: '/etc/nginx/sites-enabled/download-server.conf'
+    src: '/etc/nginx/sites-available/download-server.conf'
+    state: link
+  become: yes
+  notify: Restart Nginx
+  tags: download-nginx
