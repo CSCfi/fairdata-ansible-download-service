@@ -9,6 +9,7 @@
   with_items:
   - '{{ application_config_directory }}'
   - '{{ application_log_directory }}'
+  - '{{ application_cache_root }}'
   become: yes
   tags: download-config
 
