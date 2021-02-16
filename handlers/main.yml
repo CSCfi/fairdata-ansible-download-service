@@ -9,10 +9,12 @@
   systemd:
     name: 'fairdata-download-server'
     state: 'restarted'
+    daemon_reload: yes
   become: yes
 
 - name: Restart Download Generator
   systemd:
     name: 'fairdata-download-generator'
     state: 'restarted'
+    daemon_reload: yes
   become: yes
