@@ -1,59 +1,74 @@
 ---
-- name: Ensure directories exist with correct permissions
+- block:
+  - name: Ensure directories exist with correct permissions
+    file:
+      path: '{{ item }}'
+      owner: '{{ application_user }}'
+      group: '{{ application_group }}'
+      state: 'directory'
+      mode: '0755'
+    with_items:
+    - '{{ application_config_directory }}'
+    - '{{ application_log_directory }}'
+    - '{{ application_cache_root }}'
+    become: yes
+    tags: download-config
+
+  - name: Remove old virtual environment
+    file:
+      path: '{{ application_config_directory }}/venv'
+      state: 'absent'
+    become: yes
+    notify: Restart Download Server
+    tags:
+      - download-config
+      - virtualenv
+
+  - name: Install Download requirements in virtualenv with pip
+    pip:
+      requirements: '{{ repo_dest }}/requirements.txt'
+      virtualenv: '{{ application_config_directory }}/venv'
+      virtualenv_command: '{{ virtualenv_command }}'
+    become: yes
+    become_user: '{{ application_user }}'
+    notify: Restart Download Server
+    tags:
+      - download-config
+      - virtualenv
+
+  - name: Install Download dev requirements in virtualenv with pip
+    pip:
+      requirements: '{{ repo_dest }}/requirements-dev.txt'
+      virtualenv: '{{ application_config_directory }}/venv'
+      virtualenv_command: '{{ virtualenv_command }}'
+    when: application_environment != 'production'
+    become: yes
+    become_user: '{{ application_user }}'
+    notify: Restart Download Server
+    tags:
+      - download-config
+      - virtualenv
+
+  - name: Copy service settings
+    template:
+      src: 'fairdata-download-service-settings.cfg.j2'
+      dest: '{{ application_service_settings }}'
+      owner: '{{ application_user }}'
+      group: '{{ application_group }}'
+      mode: '0640'
+    become: yes
+    tags: download-config
+
+  when: not delete_deployment
+
+- name: Remove instance directories
   file:
     path: '{{ item }}'
-    owner: '{{ application_user }}'
-    group: '{{ application_group }}'
-    state: 'directory'
-    mode: '0755'
+    state: 'absent'
   with_items:
+  - '{{ application_config_directory }}/venv'
   - '{{ application_config_directory }}'
   - '{{ application_log_directory }}'
-  - '{{ application_cache_root }}'
   become: yes
   tags: download-config
-
-- name: Remove old virtual environment
-  file:
-    path: '{{ application_config_directory }}/venv'
-    state: 'absent'
-  become: yes
-  notify: Restart Download Server
-  tags:
-    - download-config
-    - virtualenv
-
-- name: Install Download requirements in virtualenv with pip
-  pip:
-    requirements: '{{ repo_dest }}/requirements.txt'
-    virtualenv: '{{ application_config_directory }}/venv'
-    virtualenv_command: '{{ virtualenv_command }}'
-  become: yes
-  become_user: '{{ application_user }}'
-  notify: Restart Download Server
-  tags:
-    - download-config
-    - virtualenv
-
-- name: Install Download dev requirements in virtualenv with pip
-  pip:
-    requirements: '{{ repo_dest }}/requirements-dev.txt'
-    virtualenv: '{{ application_config_directory }}/venv'
-    virtualenv_command: '{{ virtualenv_command }}'
-  when: application_environment != 'production'
-  become: yes
-  become_user: '{{ application_user }}'
-  notify: Restart Download Server
-  tags:
-    - download-config
-    - virtualenv
-
-- name: Copy service settings
-  template:
-    src: 'fairdata-download-service-settings.cfg.j2'
-    dest: '{{ application_service_settings }}'
-    owner: '{{ application_user }}'
-    group: '{{ application_group }}'
-    mode: '0640'
-  become: yes
-  tags: download-config
+  when: delete_deployment
