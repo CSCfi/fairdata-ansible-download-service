@@ -30,9 +30,8 @@ application_rabbitmq_user: download
 application_rabbitmq_pass: download
 application_jwt_secret: secret
 
-host: 0.0.0.0
-
 # Nginx config
+nginx_server_name: 0.0.0.0
 nginx_url_prefix: /v1
 nginx_public_port: 4430
 nginx_internal_port: 4431
