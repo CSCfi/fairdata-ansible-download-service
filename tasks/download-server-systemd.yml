@@ -2,17 +2,17 @@
 - name: Install systemd files
   template:
     src: '{{ item.file }}.j2'
-    dest: '{{ item.location }}/{{ item.file }}'
+    dest: '{{ item.dest }}'
     mode: '0644'
   with_items:
   - file: fairdata-download-server.service
-    location: /etc/systemd/system
+    dest: '/etc/systemd/system/fairdata-{{ instance_name }}-server.service'
   - file: fairdata-download-server.socket
-    location: /etc/systemd/system
+    dest: '/etc/systemd/system/fairdata-{{ instance_name }}-server.socket'
   - file: fairdata-download-server.env
-    location: '{{ application_config_directory }}'
+    dest: '{{ application_config_directory }}/fairdata-download-server.env'
   - file: fairdata-download-server-gunicorn.py
-    location: '{{ application_config_directory }}'
+    dest: '{{ application_config_directory }}/fairdata-download-server-gunicorn.py'
   become: yes
   tags: download-server
 
@@ -24,6 +24,6 @@
     daemon_reload: yes
   become: yes
   with_items:
-  - fairdata-download-server.service
-  - fairdata-download-server.socket
+  - 'fairdata-{{ instance_name }}-server.service'
+  - 'fairdata-{{ instance_name }}-server.socket'
   tags: download-server

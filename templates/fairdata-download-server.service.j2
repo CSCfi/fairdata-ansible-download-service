@@ -1,6 +1,6 @@
 [Unit]
 Description=Fairdata Download Server
-Requires=fairdata-download-server.socket
+Requires=fairdata-{{ instance_name }}-server.socket
 After=network.target
 
 [Service]

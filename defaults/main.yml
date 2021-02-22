@@ -11,11 +11,15 @@ virtualenv_command: virtualenv
 repo_install_method: pull
 repo_version: master
 repo_dest_root: /opt
-repo_dest: '{{ repo_dest_root }}/fairdata-download-service'
+repo_dest: '{{ repo_dest_root }}/fairdata-{{ instance_name }}'
+
+# Instance variables
+instance_name: 'download'
+instance_domain: 'fairdata.fi'
 
 application_runtime_directory: '/run'
-application_config_directory: '/etc/fairdata-download-service'
-application_log_directory: '/var/log/fairdata-download-service'
+application_config_directory: '/etc/fairdata-{{ instance_name }}'
+application_log_directory: '/var/log/fairdata-{{ instance_name }}'
 
 # Download application configuration
 application_service_settings: '{{ application_config_directory }}/settings.cfg'
@@ -31,7 +35,7 @@ application_rabbitmq_pass: download
 application_jwt_secret: secret
 
 # Nginx config
-nginx_server_name: 0.0.0.0
+nginx_server_name: '{{ instance_name }}.{{ instance_domain }}'
 nginx_url_prefix: /v1
 nginx_public_port: 4430
 nginx_internal_port: 4431
@@ -40,7 +44,7 @@ nginx_ssl_certificate: '{{ download_nginx_ssl_certificate | default("/etc/pki/tl
 nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/etc/pki/tls/private/download.local.key") }}'
 
 # Gunicorn config
-gunicorn_socket: '{{ application_runtime_directory }}/fairdata-download-server/fairdata-download-server.sock'
+gunicorn_socket: '{{ application_runtime_directory }}/fairdata-{{ instance_name }}-server/fairdata-download-server.sock'
 gunicorn_workers: 1
 gunicorn_threads: 4
 

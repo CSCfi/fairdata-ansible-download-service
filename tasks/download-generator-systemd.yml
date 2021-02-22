@@ -2,20 +2,20 @@
 - name: Install Download Generator service files
   template:
     src: '{{ item.file }}.j2'
-    dest: '{{ item.location }}/{{ item.file }}'
+    dest: '{{ item.dest }}'
     mode: '0644'
   with_items:
   - file: fairdata-download-generator.service
-    location: /etc/systemd/system
+    dest: '/etc/systemd/system/fairdata-{{ instance_name }}-generator.service'
   - file: fairdata-download-generator.env
-    location: '{{ application_config_directory }}'
+    dest: '{{ application_config_directory }}/fairdata-download-generator.env'
   become: yes
   notify: Restart Download Generator
   tags: generator-service
 
 - name: Ensure Download Generator service is started
   systemd:
-    name: 'fairdata-download-generator.service'
+    name: 'fairdata-{{ instance_name }}-generator.service'
     state: started
     enabled: yes
     daemon_reload: yes

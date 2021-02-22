@@ -7,14 +7,14 @@
 
 - name: Restart Download Server
   systemd:
-    name: 'fairdata-download-server'
+    name: 'fairdata-{{ instance_name }}-server'
     state: 'restarted'
     daemon_reload: yes
   become: yes
 
 - name: Restart Download Generator
   systemd:
-    name: 'fairdata-download-generator'
+    name: 'fairdata-{{ instance_name }}-generator'
     state: 'restarted'
     daemon_reload: yes
   become: yes
