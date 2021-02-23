@@ -19,7 +19,7 @@
       path: '{{ application_config_directory }}/venv'
       state: 'absent'
     become: yes
-    notify: Restart Download Server
+    notify: Restart Download systemd Services
     tags:
       - download-config
       - virtualenv
@@ -31,7 +31,7 @@
       virtualenv_command: '{{ virtualenv_command }}'
     become: yes
     become_user: '{{ application_user }}'
-    notify: Restart Download Server
+    notify: Restart Download systemd Services
     tags:
       - download-config
       - virtualenv
@@ -44,7 +44,7 @@
     when: application_environment != 'production'
     become: yes
     become_user: '{{ application_user }}'
-    notify: Restart Download Server
+    notify: Restart Download systemd Services
     tags:
       - download-config
       - virtualenv

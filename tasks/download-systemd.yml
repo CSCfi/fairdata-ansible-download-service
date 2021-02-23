@@ -19,6 +19,7 @@
     - file: fairdata-download-generator.env
       dest: '{{ application_config_directory }}/fairdata-download-generator.env'
     become: yes
+    notify: Restart Download systemd Services
     tags: download-systemd
 
   - name: Ensure Download Service service is started
