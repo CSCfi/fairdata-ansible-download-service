@@ -6,7 +6,6 @@ ListenStream={{ gunicorn_socket }}
 SocketMode=0666
 SocketUser={{ application_user }}
 SocketGroup={{ application_group }}
-RuntimeDirectory=fairdata-{{ instance_name }}-server
 
 [Install]
 WantedBy=sockets.target

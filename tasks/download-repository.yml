@@ -24,7 +24,7 @@
   - name: Push local Download repository
     copy:
       src: '{{ repo_src }}'
-      dest: '{{ repo_dest_root }}'
+      dest: '{{ directory_source_root }}'
     when: repo_install_method == 'push'
     tags: download-repository
 

@@ -3,7 +3,7 @@
 
   - name: Ensure log directory exist with correct permissions
     file:
-      path: '{{ application_log_directory }}'
+      path: '{{ directory_log }}'
       owner: '{{ application_user }}'
       group: '{{ application_group }}'
       state: 'directory'
@@ -14,7 +14,7 @@
   - name: Install Download Server Nginx configuration
     template:
       src: 'fairdata-download-server-nginx.conf.j2'
-      dest: '/etc/nginx/sites-available/{{ nginx_server_name }}'
+      dest: '/etc/nginx/sites-available/{{ deployment_fqdn }}'
       mode: '0644'
     become: yes
     notify: Restart Nginx
@@ -22,8 +22,8 @@
 
   - name: Enable Download Server Nginx configuration
     file:
-      path: '/etc/nginx/sites-enabled/{{ nginx_server_name }}'
-      src: '/etc/nginx/sites-available/{{ nginx_server_name }}'
+      path: '/etc/nginx/sites-enabled/{{ deployment_fqdn }}'
+      src: '/etc/nginx/sites-available/{{ deployment_fqdn }}'
       state: link
     become: yes
     notify: Restart Nginx
@@ -33,7 +33,7 @@
 
 - name: Ensure Download Server Nginx configurations are deleted
   file:
-    path: '/etc/nginx/{{ item }}/{{ nginx_server_name }}'
+    path: '/etc/nginx/{{ item }}/{{ deployment_fqdn }}'
     state: 'absent'
   with_items:
     - 'sites-enabled'

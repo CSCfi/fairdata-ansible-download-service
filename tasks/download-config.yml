@@ -8,15 +8,16 @@
       state: 'directory'
       mode: '0755'
     with_items:
-    - '{{ application_config_directory }}'
-    - '{{ application_log_directory }}'
-    - '{{ application_cache_root }}'
+    - '{{ directory_config }}'
+    - '{{ directory_log }}'
+    - '{{ directory_cache_root }}'
+    - '{{ directory_venv }}'
     become: yes
     tags: download-config
 
   - name: Remove old virtual environment
     file:
-      path: '{{ application_config_directory }}/venv'
+      path: '{{ directory_venv }}'
       state: 'absent'
     become: yes
     notify: Restart Download systemd Services
@@ -27,7 +28,7 @@
   - name: Install Download requirements in virtualenv with pip
     pip:
       requirements: '{{ repo_dest }}/requirements.txt'
-      virtualenv: '{{ application_config_directory }}/venv'
+      virtualenv: '{{ directory_venv }}'
       virtualenv_command: '{{ virtualenv_command }}'
     become: yes
     become_user: '{{ application_user }}'
@@ -39,7 +40,7 @@
   - name: Install Download dev requirements in virtualenv with pip
     pip:
       requirements: '{{ repo_dest }}/requirements-dev.txt'
-      virtualenv: '{{ application_config_directory }}/venv'
+      virtualenv: '{{ directory_venv }}'
       virtualenv_command: '{{ virtualenv_command }}'
     when: application_environment != 'production'
     become: yes
@@ -66,9 +67,9 @@
     path: '{{ item }}'
     state: 'absent'
   with_items:
-  - '{{ application_config_directory }}/venv'
-  - '{{ application_config_directory }}'
-  - '{{ application_log_directory }}'
+  - '{{ directory_venv }}'
+  - '{{ directory_config }}'
+  - '{{ directory_log }}'
   become: yes
   tags: download-config
   when: delete_deployment

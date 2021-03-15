@@ -1,55 +1,76 @@
 ---
-# Role control
+# Role control variables
+# ~~~~~~~~~~~~~~~~~~~~~~
 prepare_application: True
 deploy_application: True
 configure_nginx: True
 delete_deployment: False
 
-# Python
-virtualenv_command: virtualenv
-
-# Repository data
-repo_install_method: pull
-repo_version: master
-repo_dest_root: /opt
-repo_dest: '{{ repo_dest_root }}/fairdata-{{ instance_name }}'
-
-# Instance variables
-instance_name: 'download'
+# Deployment variables
+# ~~~~~~~~~~~~~~~~~~~~
 instance_domain: 'fairdata.fi'
+deployment_name: 'download'
+deployment_fqdn: '{{ deployment_name }}.{{ instance_domain }}'
+instance_name: 'fairdata-{{ deployment_name }}'
 
-application_runtime_directory: '/run'
-application_config_directory: '/etc/fairdata-{{ instance_name }}'
-application_log_directory: '/var/log/fairdata-{{ instance_name }}'
+# Directory variables
+# ~~~~~~~~~~~~~~~~~~~
+directory_config: '/etc/{{ instance_name }}-service'
+directory_source_root: '/opt'
+directory_run: '/run'
+directory_log: '/var/log/{{ instance_name }}-service'
+directory_venv: '/usr/local/download-venvs/{{ instance_name }}-service'
 
-# Download application configuration
-application_service_settings: '{{ application_config_directory }}/settings.cfg'
-application_cache_root: '/mnt/download-service-cache'
-application_ida_storage_root: '/mnt/download-ida-storage'
-application_user: download
-application_group: download
-application_environment: development
-application_rabbitmq_host: localhost
-application_rabbitmq_vhost: download
-application_rabbitmq_user: download
-application_rabbitmq_pass: download
-application_jwt_secret: secret
+directory_cache_root: '/mnt/download-service-cache'
+directory_ida_storage_root: '/mnt/download-ida-storage'
 
-# Nginx config
-nginx_server_name: '{{ instance_name }}.{{ instance_domain }}'
-nginx_url_prefix: /v1
+# Repository variables
+# ~~~~~~~~~~~~~~~~~~~~
+repo_install_method: 'pull'
+repo_version: 'master'
+repo_dest: '{{ directory_source_root }}/{{ instance_name }}-service'
+
+# Python virtualenv variables
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+virtualenv_command: 'virtualenv'
+
+# RabbitMQ variables
+# ~~~~~~~~~~~~~~~~~~
+rabbitmq_host: 'localhost'
+rabbitmq_vhost: 'download'
+rabbitmq_user: 'download'
+rabbitmq_pass: 'download'
+
+# Application variables
+# ~~~~~~~~~~~~~~~~~~~~~
+application_user: 'download'
+application_group: 'download'
+
+application_service_settings: '{{ directory_config }}/settings.cfg'
+application_environment: 'development'
+application_jwt_secret: 'secret'
+
+application_service_metax_url: 'https://metax.fairdata.fi'
+application_service_metax_user: 'download'
+application_service_metax_pass: 'download'
+
+# Nginx variables
+# ~~~~~~~~~~~~~~~
+nginx_url_prefix: '/v1'
 nginx_public_port: 4430
 nginx_internal_port: 4431
 nginx_custom_certificates: False
 nginx_ssl_certificate: '{{ download_nginx_ssl_certificate | default("/etc/pki/tls/certs/download.local.crt") }}'
 nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/etc/pki/tls/private/download.local.key") }}'
 
-# Gunicorn config
-gunicorn_socket: '{{ application_runtime_directory }}/fairdata-{{ instance_name }}-server/fairdata-download-server.sock'
+# Gunicorn variables
+# ~~~~~~~~~~~~~~~~~~
+gunicorn_socket: '{{ directory_run }}/{{ instance_name }}-server.sock'
 gunicorn_workers: 1
 gunicorn_threads: 4
 
-# Celery config
+# Celery variables
+# ~~~~~~~~~~~~~~~~
 celeryd_nodes: 'generator1'
 celeryd_min_workers: 1
 celeryd_max_workers: 10
