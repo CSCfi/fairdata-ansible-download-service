@@ -5,14 +5,12 @@
     state: 'restarted'
   become: yes
 
-- name: Restart Download Server
+- name: Restart Download systemd Services
   systemd:
-    name: 'fairdata-download-server'
+    name: '{{ instance_name }}-{{ item }}'
     state: 'restarted'
-  become: yes
-
-- name: Restart Download Generator
-  systemd:
-    name: 'fairdata-download-generator'
-    state: 'restarted'
+    daemon_reload: yes
+  with_items:
+    - 'server'
+    - 'generator'
   become: yes

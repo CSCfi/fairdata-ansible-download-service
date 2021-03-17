@@ -1,4 +1,4 @@
-accesslog = '{{ application_log_directory }}/download-server-access.log'
-errorlog = '{{ application_log_directory }}/download-server-error.log'
+accesslog = '{{ directory_log }}/download-server-access.log'
+errorlog = '{{ directory_log }}/download-server-error.log'
 workers = {{ gunicorn_workers }}
 threads = {{ gunicorn_threads }}

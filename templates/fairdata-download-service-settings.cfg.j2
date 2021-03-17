@@ -1,15 +1,15 @@
 # Volumes
-DOWNLOAD_CACHE_DIR = '{{ application_cache_root }}'
-IDA_DATA_ROOT = '{{ application_ida_storage_root }}'
+DOWNLOAD_CACHE_DIR = '{{ directory_cache_root }}'
+IDA_DATA_ROOT = '{{ directory_ida_storage_root }}'
 
 # Database
-DATABASE_FILE = '{{ application_cache_root }}/download.db'
+DATABASE_FILE = '{{ directory_cache_root }}/download.db'
 
 # Message queue
-MQ_HOST = '{{ application_rabbitmq_host }}'
-MQ_VHOST = '{{ application_rabbitmq_vhost }}'
-MQ_USER = '{{ application_rabbitmq_user }}'
-MQ_PASS = '{{ application_rabbitmq_pass }}'
+MQ_HOST = '{{ rabbitmq_host }}'
+MQ_VHOST = '{{ rabbitmq_vhost }}'
+MQ_USER = '{{ rabbitmq_user }}'
+MQ_PASS = '{{ rabbitmq_pass }}'
 
 # JWT
 JWT_SECRET = '{{ application_jwt_secret }}'

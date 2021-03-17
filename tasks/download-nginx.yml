@@ -1,28 +1,44 @@
 ---
-- name: Ensure log directory exist with correct permissions
-  file:
-    path: '{{ application_log_directory }}'
-    owner: '{{ application_user }}'
-    group: '{{ application_group }}'
-    state: 'directory'
-    mode: '0755'
-  become: yes
-  tags: download-nginx
+- block:
 
-- name: Install Download Server Nginx configuration
-  template:
-    src: 'fairdata-download-server-nginx.conf.j2'
-    dest: '/etc/nginx/sites-available/download-server.conf'
-    mode: '0644'
+  - name: Ensure log directory exist with correct permissions
+    file:
+      path: '{{ directory_log }}'
+      owner: '{{ application_user }}'
+      group: '{{ application_group }}'
+      state: 'directory'
+      mode: '0755'
+    become: yes
+    tags: download-nginx
+
+  - name: Install Download Server Nginx configuration
+    template:
+      src: 'fairdata-download-server-nginx.conf.j2'
+      dest: '/etc/nginx/sites-available/{{ deployment_fqdn }}'
+      mode: '0644'
+    become: yes
+    notify: Restart Nginx
+    tags: download-nginx
+
+  - name: Enable Download Server Nginx configuration
+    file:
+      path: '/etc/nginx/sites-enabled/{{ deployment_fqdn }}'
+      src: '/etc/nginx/sites-available/{{ deployment_fqdn }}'
+      state: link
+    become: yes
+    notify: Restart Nginx
+    tags: download-nginx
+
+  when: not delete_deployment
+
+- name: Ensure Download Server Nginx configurations are deleted
+  file:
+    path: '/etc/nginx/{{ item }}/{{ deployment_fqdn }}'
+    state: 'absent'
+  with_items:
+    - 'sites-enabled'
+    - 'sites-available'
   become: yes
   notify: Restart Nginx
   tags: download-nginx
-
-- name: Enable Download Server Nginx configuration
-  file:
-    path: '/etc/nginx/sites-enabled/download-server.conf'
-    src: '/etc/nginx/sites-available/download-server.conf'
-    state: link
-  become: yes
-  notify: Restart Nginx
-  tags: download-nginx
+  when: delete_deployment

@@ -1,10 +1,10 @@
 server {
-    listen       {{ nginx_public_port }} ssl http2 default_server;
-    listen       [::]:{{ nginx_public_port }} ssl http2 default_server;
-    server_name  {{ host }};
+    listen       {{ nginx_public_port }} ssl http2;
+    listen       [::]:{{ nginx_public_port }} ssl http2;
+    server_name  {{ deployment_fqdn }};
 
-    access_log  {{ application_log_directory }}/download-nginx-access.log;
-    error_log  {{ application_log_directory }}/download-nginx-error.log;
+    access_log  {{ directory_log }}/download-nginx-access.log;
+    error_log  {{ directory_log }}/download-nginx-error.log;
 
 {% if nginx_custom_certificates %}
     ssl_certificate {{ nginx_ssl_certificate }};
@@ -22,12 +22,12 @@ server {
 }
 
 server {
-    listen       {{ nginx_internal_port }} ssl http2 default_server;
-    listen       [::]:{{ nginx_internal_port }} ssl http2 default_server;
-    server_name  {{ host }};
+    listen       {{ nginx_internal_port }} ssl http2;
+    listen       [::]:{{ nginx_internal_port }} ssl http2;
+    server_name  {{ deployment_fqdn }};
 
-    access_log  {{ application_log_directory }}/download-nginx-access.log;
-    error_log  {{ application_log_directory }}/download-nginx-error.log;
+    access_log  {{ directory_log }}/download-nginx-access.log;
+    error_log  {{ directory_log }}/download-nginx-error.log;
 
 {% if nginx_custom_certificates %}
     ssl_certificate {{ nginx_ssl_certificate }};
