@@ -7,7 +7,8 @@
 - name: Ensure Sqlite is installed
   yum:
     name: 'sqlite'
-    state: 'latest'
+    # state: present, in order not to upgrade any package to an untested version
+    state: present
   become: yes
   when: prepare_application
   tags: download-sqlite
