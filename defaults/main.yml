@@ -46,6 +46,9 @@ rabbitmq_pass: 'download'
 application_user: 'download'
 application_group: 'download'
 
+application_cache_purge_threshold: 120000000000000  # 15TB
+application_cache_purge_target: 8000000000000       # 10TB
+
 application_service_settings: '{{ directory_config }}/settings.cfg'
 application_environment: 'development'
 application_jwt_secret: 'secret'
