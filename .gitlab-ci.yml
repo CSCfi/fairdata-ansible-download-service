@@ -7,5 +7,7 @@ stages:
 
 update_deployment:
   stage: deploy
+  tags:
+    - shell
   script:
     - ansible-galaxy role install --force -r $ANSIBLE_GALAXY_REQUIREMENTS
