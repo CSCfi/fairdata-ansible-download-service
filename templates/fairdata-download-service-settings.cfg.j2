@@ -5,6 +5,10 @@ IDA_DATA_ROOT = '{{ directory_ida_storage_root }}'
 # Database
 DATABASE_FILE = '{{ directory_cache_root }}/download.db'
 
+# Cache
+CACHE_PURGE_THRESHOLD = '{{ application_cache_purge_threshold }}'
+CACHE_PURGE_TARGET = '{{ application_cache_purge_target }}'
+
 # Message queue
 MQ_HOST = '{{ rabbitmq_host }}'
 MQ_VHOST = '{{ rabbitmq_vhost }}'
