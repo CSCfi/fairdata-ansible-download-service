@@ -1,6 +1,6 @@
 server {
-    listen       {{ nginx_public_port }} ssl http2;
-    listen       [::]:{{ nginx_public_port }} ssl http2;
+    listen       {{ nginx_public_port }} ssl http2 default_server;
+    listen       [::]:{{ nginx_public_port }} ssl http2 default_server;
     server_name  {{ host_domain_name }};
 
     access_log  {{ directory_log }}/download-nginx-access.log;
@@ -20,8 +20,8 @@ server {
 }
 
 server {
-    listen       {{ nginx_internal_port }} ssl http2;
-    listen       [::]:{{ nginx_internal_port }} ssl http2;
+    listen       {{ nginx_internal_port }} ssl http2 default_server;
+    listen       [::]:{{ nginx_internal_port }} ssl http2 default_server;
     server_name  {{ host_domain_name }};
 
     access_log  {{ directory_log }}/download-nginx-access.log;
