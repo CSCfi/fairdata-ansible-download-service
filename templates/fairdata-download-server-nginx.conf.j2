@@ -6,10 +6,8 @@ server {
     access_log  {{ directory_log }}/download-nginx-access.log;
     error_log  {{ directory_log }}/download-nginx-error.log;
 
-{% if nginx_custom_certificates %}
     ssl_certificate {{ nginx_ssl_certificate }};
     ssl_certificate_key {{ nginx_ssl_certificate_key }};
-{% endif %}
 
     location {{ nginx_url_prefix }}/download {
         rewrite {{ nginx_url_prefix }}/(.*) /$1  break;
@@ -29,14 +27,8 @@ server {
     access_log  {{ directory_log }}/download-nginx-access.log;
     error_log  {{ directory_log }}/download-nginx-error.log;
 
-{% if nginx_custom_certificates %}
     ssl_certificate {{ nginx_ssl_certificate }};
     ssl_certificate_key {{ nginx_ssl_certificate_key }};
-{% endif %}
-
-{% if application_environment != 'production' %}
-    add_header Content-Security-Policy "default-src 'self' * 'unsafe-inline' data: 'unsafe-eval'";
-{% endif %}
 
     location {{ nginx_url_prefix }} {
         rewrite {{ nginx_url_prefix }}/(.*) /$1  break;
