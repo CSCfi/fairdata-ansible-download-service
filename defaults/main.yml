@@ -10,7 +10,7 @@ delete_deployment: False
 # ~~~~~~~~~~~~~~~~~~~~
 instance_domain: 'fairdata.fi'
 deployment_name: 'download'
-host_domain_name: 'fairdata.fi'
+host_domain_name: 'ida.fairdata.fi'
 instance_name: 'fairdata-{{ deployment_name }}'
 
 # Directory variables
