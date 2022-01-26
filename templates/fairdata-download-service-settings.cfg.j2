@@ -8,6 +8,11 @@ DATABASE_FILE = '{{ directory_cache_root }}/download.db'
 # Cache
 CACHE_PURGE_THRESHOLD = '{{ application_cache_purge_threshold }}'
 CACHE_PURGE_TARGET = '{{ application_cache_purge_target }}'
+ENABLE_CACHE_FILE_DELETION = '{{ application_cache_enable_file_deletion }}'
+ALWAYS_CALCULATE_CACHE_RANKING = '{{ application_cache_ranking_calculate_always }}'
+ALWAYS_RUN_HOUSEKEEPING_IN_DOWNLOAD_ENDPOINT = '{{ application_housekeeping_always_run_on_download }}'
+ALWAYS_RUN_HOUSEKEEPING_IN_REQUEST_ENDPOINT = '{{ application_housekeeping_always_run_on_request }}'
+
 
 # Message queue
 MQ_HOST = '{{ rabbitmq_host }}'

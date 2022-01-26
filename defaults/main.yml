@@ -48,6 +48,10 @@ application_group: 'download'
 
 application_cache_purge_threshold: 120000000000000  # 15TB
 application_cache_purge_target: 8000000000000       # 10TB
+application_cache_enable_file_deletion: False
+application_cache_ranking_calculate_always: False
+application_housekeeping_always_run_on_download: False
+application_housekeeping_always_run_on_request: False
 
 application_service_settings: '{{ directory_config }}/settings.cfg'
 application_environment: 'development'
