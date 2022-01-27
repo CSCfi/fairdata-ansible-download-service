@@ -23,6 +23,11 @@
   when: deploy_application
   tags: download-config
 
+- name: Include RabbitMQ tasks
+  include_tasks: "download-rabbitmq.yml"
+  when: deploy_application
+  tags: download-rabbitmq
+
 - name: Include Download Service SystemD tasks
   include_tasks: "download-systemd.yml"
   when: deploy_application
@@ -33,7 +38,4 @@
   when: configure_nginx
   tags: download-nginx
 
-- name: Include RabbitMQ tasks
-  include_tasks: "download-rabbitmq.yml"
-  when: deploy_application
-  tags: download-rabbitmq
+
