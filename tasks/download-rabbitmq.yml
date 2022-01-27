@@ -1,0 +1,21 @@
+---
+- name: Ensure RabbitMQ vhost exists
+  rabbitmq_vhost: 
+    name: "{{ rabbitmq_vhost }}"
+    state: present
+  become: yes
+  tags: rabbitmq
+
+- name: Ensure RabbitMQ user exists
+  rabbitmq_user: 
+   user: "{{ rabbitmq_user }}"
+   pass: "{{ rabbitmq_pass }}"
+   permissions: 
+     - vhost: "{{ rabbitmq_vhost }}"
+       configure_priv: '.*'
+       read_priv: '.*'
+       write_priv: '.*'
+   state: present
+  become: yes
+  tags: rabbitmq
+  

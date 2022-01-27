@@ -32,3 +32,8 @@
   include_tasks: "download-nginx.yml"
   when: configure_nginx
   tags: download-nginx
+
+- name: Include RabbitMQ tasks
+  include_tasks: "download-rabbitmq.yml"
+  when: deploy_application
+  tags: download-rabbitmq
