@@ -17,4 +17,4 @@
        write_priv: '.*'
    state: present
   become: yes
-  tags:     rabbitmq
+  tags: rabbitmq
