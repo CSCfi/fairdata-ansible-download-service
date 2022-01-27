@@ -75,6 +75,7 @@ nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/et
 gunicorn_socket: '{{ directory_run }}/{{ instance_name }}-server.sock'
 gunicorn_workers: 1
 gunicorn_threads: 4
+gunicorn_log_level: 'INFO'
 
 # Celery variables
 # ~~~~~~~~~~~~~~~~
