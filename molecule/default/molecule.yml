@@ -5,27 +5,15 @@ driver:
   name: docker
 platforms:
   - name: instance
-    image: centos:8
-
-
-
+    image: docker.io/pycontribs/centos:7
+    pre_build_image: true
 provisioner:
   name: ansible
-
-  inventory:
-    host_vars:
-      instance:
-        ansible_user: root
   config_options:
     defaults:
-      remote_tmp: /tmp
-      verbosity: 1
-      local_tmp: /tmp
+      interpreter_python: auto_silent
+      callback_whitelist: profile_tasks, timer, yaml
     ssh_connection:
-      usetty: True
-    diff:
-      always: True
- # lint:
- #   name: ansible-lint
+      pipelining: false
 verifier:
   name: ansible
