@@ -1,0 +1,3 @@
+FROM local/centos7-systemd
+RUN yum -y install openssh-server openssh-clients; systemctl enable sshd.service;
+CMD ["/usr/sbin/init"]

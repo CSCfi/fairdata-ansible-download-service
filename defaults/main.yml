@@ -8,6 +8,7 @@ delete_deployment: False
 
 # Deployment variables
 # ~~~~~~~~~~~~~~~~~~~~
+deployer: "'{{ lookup('env', 'USER') }}'"
 instance_domain: 'fairdata.fi'
 deployment_name: 'download'
 host_domain_name: 'ida.fairdata.fi'
@@ -29,6 +30,8 @@ directory_ida_storage_root: '/mnt/download-ida-storage'
 repo_install_method: 'pull'
 repo_version: 'master'
 repo_dest: '{{ directory_source_root }}/{{ instance_name }}-service'
+repo_url: 'ssh://git@gitlab.ci.csc.fi:10022/fairdata/fairdata-download-service.git'
+repo_deploy_key: '{{ download_repo_deploy_key | default("~/.ssh/id_rsa") }}'
 
 # Python virtualenv variables
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~

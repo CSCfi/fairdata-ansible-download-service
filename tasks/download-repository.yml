@@ -3,19 +3,33 @@
   - name: Ensure repository directory exists with correct permissions
     file:
       path: '{{ repo_dest }}'
-      owner: '{{ deployer }}'
+      owner: '{{ application_user }}'
       group: '{{ application_group }}'
       recurse: 'yes'
       state: 'directory'
     become: yes
     tags: download-repository
 
+  - name: Ensure .ssh directory exists
+    file:
+      path: '{{ application_user }}/.ssh'
+      state: directory
+      mode: 0700
+      owner: '{{ application_user }}'
+
+  - name: Ensure deploy key is present on the server
+    copy:
+      src: "{{ repo_deploy_key }}"
+      dest: '{{ application_user }}/.ssh/deploy_key'
+      mode: 0600
+      owner: '{{ application_user }}'
+
   - name: Fetch Download repository sources with git
     git:
       repo: '{{ repo_url }}'
       version: '{{ repo_version }}'
       force: 'yes'
-      key_file: '{{ repo_deploy_key }}'
+      # key_file: '{{ application_user }}/.ssh/deploy_key'
       accept_hostkey: 'yes'
       dest: '{{ repo_dest }}'
     when: repo_install_method == 'pull'

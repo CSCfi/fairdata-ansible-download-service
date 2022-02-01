@@ -1,4 +1,18 @@
 ---
+- name: Ensure sudo is installed
+  yum:
+    name: sudo
+    state: present
+  when: prepare_application
+  tags: download-sudo
+
+- name: Ensure git is installed
+  yum:
+    name: git
+    state: present
+  when: prepare_application
+  tags: download-git
+
 - name: Include Download Service user tasks
   include_tasks: "download-user.yml"
   when: prepare_application
