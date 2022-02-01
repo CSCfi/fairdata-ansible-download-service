@@ -6,8 +6,8 @@ Ansible role for deployment of Fairdata Download Service.
 
 ### Build the docker images
 
-docker build --rm -t local/centos7-systemd -f Dockerfile-systemd .
-docker build --rm -t local/centos7-systemd-sshd -f Dockerfile-ssh .
+`docker build --rm -t local/centos7-systemd -f Dockerfile-systemd .`
+`docker build --rm -t local/centos7-systemd-sshd -f Dockerfile-ssh .`
 
 ### Install Python Dependencies
 
