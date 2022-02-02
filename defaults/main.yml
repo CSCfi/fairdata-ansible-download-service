@@ -35,7 +35,7 @@ repo_deploy_key: '{{ download_repo_deploy_key | default("~/.ssh/id_rsa") }}'
 
 # Python virtualenv variables
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-virtualenv_command: 'virtualenv'
+virtualenv_command: 'python3 -m venv'
 
 # RabbitMQ variables
 # ~~~~~~~~~~~~~~~~~~

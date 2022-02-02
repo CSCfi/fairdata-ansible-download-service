@@ -9,7 +9,9 @@
       state: 'directory'
       mode: '0755'
     become: yes
-    tags: download-nginx
+    tags:
+      - download-nginx
+      - molecule-notest
 
   - name: Install Download Server Nginx configuration
     template:
@@ -18,6 +20,8 @@
       mode: '0644'
     become: yes
     notify: Restart Nginx
-    tags: download-nginx
+    tags:
+      - download-nginx
+      - molecule-notest
 
   when: not delete_deployment

@@ -25,12 +25,28 @@
       - download-config
       - virtualenv
 
+  - name: Ensure python3 dependencies
+    yum:
+      name:
+        - python3-pip
+        - python-setuptools
+        - python3-devel
+      state: present
+    become: yes
+
+  - name: Install pip to virtualenv
+    pip:
+      name:
+        - pip
+      virtualenv: '{{ directory_venv }}'
+      virtualenv_command: '{{ virtualenv_command }}'
+    become_user: '{{ application_user }}'
+
   - name: Install Download requirements in virtualenv with pip
     pip:
       requirements: '{{ repo_dest }}/requirements.txt'
       virtualenv: '{{ directory_venv }}'
       virtualenv_command: '{{ virtualenv_command }}'
-    become: yes
     become_user: '{{ application_user }}'
     notify: Restart Download systemd Services
     tags:
@@ -43,7 +59,6 @@
       virtualenv: '{{ directory_venv }}'
       virtualenv_command: '{{ virtualenv_command }}'
     when: application_environment != 'production'
-    become: yes
     become_user: '{{ application_user }}'
     notify: Restart Download systemd Services
     tags:

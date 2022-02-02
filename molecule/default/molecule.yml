@@ -23,6 +23,6 @@ provisioner:
   inventory:
     group_vars:
       all:
-        download_repo_deploy_key: /home/tonurmi/.ssh/csc2020-01
+        download_repo_deploy_key: /ssh/id_rsa
 verifier:
   name: ansible
