@@ -6,10 +6,10 @@ Ansible role for deployment of Fairdata Download Service.
 
 ### Build the docker images
 
-First, create folder .config to repository root, then add an ssh-key with gitlab.ci.csc.fi access under it. Replace private_key in the first docker build command with your private key-file name.
+First, create folder .config to repository root, then add an ssh-key with gitlab.ci.csc.fi access under it. Replace private_key in the second docker build command with your private key-file name.
 
-`docker build --rm --build-arg REPO_SSH_KEY=.config/private_key -t local/centos7-systemd -f Dockerfile-systemd .`
-`docker build --rm -t local/centos7-systemd-sshd -f Dockerfile-ssh .`
+`docker build --rm -t local/centos7-systemd -f Dockerfile-systemd .`
+`docker build --rm --build-arg REPO_SSH_KEY=.config/private_key -t local/centos7-systemd-sshd -f Dockerfile-ssh .`
 
 ### Install Python Dependencies
 
