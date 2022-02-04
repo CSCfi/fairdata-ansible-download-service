@@ -2,7 +2,7 @@
 - name: Ensure the Download Service user exists
   user:
     name: '{{ application_user }}'
-    shell: /bin/bash
+#     shell: /bin/bash
   become: yes
   tags: download-users
 
