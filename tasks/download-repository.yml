@@ -1,5 +1,10 @@
 ---
 - block:
+  - name: Check repository directory state
+    stat:
+      path: '{{ repo_dest }}'
+    register: repo_folder
+
   - name: Ensure repository directory exists with correct permissions
     file:
       path: '{{ repo_dest }}'
@@ -7,14 +12,16 @@
       group: '{{ application_group }}'
       recurse: 'yes'
       state: 'directory'
+      force: no
     become: yes
+    when: repo_folder.stat.exists == false
     tags: download-repository
 
   - name: Fetch Download repository sources with git
     git:
       repo: '{{ repo_url }}'
       version: '{{ repo_version }}'
-      force: 'yes'
+      force: 'no'
       key_file: '{{ repo_deploy_key }}'
       accept_hostkey: 'yes'
       dest: '{{ repo_dest }}'
@@ -25,6 +32,7 @@
     copy:
       src: '{{ repo_src }}'
       dest: '{{ directory_source_root }}'
+      force: no
     when: repo_install_method == 'push'
     tags: download-repository
 

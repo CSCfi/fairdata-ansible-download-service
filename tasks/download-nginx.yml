@@ -11,7 +11,7 @@
     become: yes
     tags:
       - download-nginx
-      - molecule-notest
+      #- molecule-notest
 
   - name: Install Download Server Nginx configuration
     template:

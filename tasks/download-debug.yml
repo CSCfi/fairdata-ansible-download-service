@@ -1,0 +1,12 @@
+---
+- name: show calculated hostvars
+  ansible.builtin.debug:
+    msg: '{{ item }}'
+  loop:
+  - '{{ directory_config }}'
+  - '{{ instance_name }}'
+  - '{{ application_service_settings }}'
+  - '{{ repo_dest }}'
+  - '{{ directory_log }}'
+  - '{{ directory_venv }}'
+  - '{{ gunicorn_socket }}'
