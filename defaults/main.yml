@@ -8,6 +8,7 @@ delete_deployment: False
 
 # Deployment variables
 # ~~~~~~~~~~~~~~~~~~~~
+deployer: "'{{ lookup('env', 'USER') }}'"
 instance_domain: 'fairdata.fi'
 deployment_name: 'download'
 host_domain_name: 'ida.fairdata.fi'
@@ -29,10 +30,12 @@ directory_ida_storage_root: '/mnt/download-ida-storage'
 repo_install_method: 'pull'
 repo_version: 'master'
 repo_dest: '{{ directory_source_root }}/{{ instance_name }}-service'
+repo_url: 'ssh://git@gitlab.ci.csc.fi:10022/fairdata/fairdata-download-service.git'
+repo_deploy_key: '{{ download_repo_deploy_key | default("~/.ssh/id_rsa") }}'
 
 # Python virtualenv variables
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-virtualenv_command: 'virtualenv'
+virtualenv_command: 'python3 -m venv'
 
 # RabbitMQ variables
 # ~~~~~~~~~~~~~~~~~~
@@ -48,6 +51,10 @@ application_group: 'download'
 
 application_cache_purge_threshold: 120000000000000  # 15TB
 application_cache_purge_target: 8000000000000       # 10TB
+application_cache_enable_file_deletion: False
+application_cache_ranking_calculate_always: False
+application_housekeeping_always_run_on_download: False
+application_housekeeping_always_run_on_request: False
 
 application_service_settings: '{{ directory_config }}/settings.cfg'
 application_environment: 'development'
@@ -71,6 +78,7 @@ nginx_ssl_certificate_key: '{{ download_nginx_ssl_certificate_key | default("/et
 gunicorn_socket: '{{ directory_run }}/{{ instance_name }}-server.sock'
 gunicorn_workers: 1
 gunicorn_threads: 4
+gunicorn_log_level: 'INFO'
 
 # Celery variables
 # ~~~~~~~~~~~~~~~~

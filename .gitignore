@@ -44,3 +44,4 @@
 .yamllint
 ansible.cfg
 .idea/
+.config/

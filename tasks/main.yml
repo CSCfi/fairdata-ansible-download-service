@@ -1,4 +1,23 @@
 ---
+- name: Include Download Debug tasks
+  include_tasks: "download-debug.yml"
+  when: debug
+  tags: download-debug
+
+- name: Ensure sudo is installed
+  yum:
+    name: sudo
+    state: present
+  when: prepare_application
+  tags: download-sudo
+
+- name: Ensure git is installed
+  yum:
+    name: git
+    state: present
+  when: prepare_application
+  tags: download-git
+
 - name: Include Download Service user tasks
   include_tasks: "download-user.yml"
   when: prepare_application
@@ -13,6 +32,19 @@
   when: prepare_application
   tags: download-sqlite
 
+- name: install EPEL repo
+  become: yes
+  yum: name=epel-release state=present
+
+- name: Ensure nginx is installed
+  yum:
+    name: 'nginx'
+    state: present
+    enablerepo: "epel"
+  become: yes
+  when: prepare_application
+  tags: download-nginx
+
 - name: Include Download Service repository tasks
   include_tasks: "download-repository.yml"
   when: deploy_application
@@ -23,6 +55,11 @@
   when: deploy_application
   tags: download-config
 
+- name: Include RabbitMQ tasks
+  include_tasks: "download-rabbitmq.yml"
+  when: deploy_application
+  tags: download-rabbitmq
+
 - name: Include Download Service SystemD tasks
   include_tasks: "download-systemd.yml"
   when: deploy_application
@@ -32,3 +69,5 @@
   include_tasks: "download-nginx.yml"
   when: configure_nginx
   tags: download-nginx
+
+

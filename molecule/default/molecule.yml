@@ -1,0 +1,28 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: local/centos7-systemd-sshd:latest
+    pre_build_image: true
+    command: /usr/sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+provisioner:
+  name: ansible
+  config_options:
+    ssh_connection:
+      ssh_args: -o ForwardAgent=yes
+#    defaults:
+#      private_key_file: '{{ ansible_ssh_private_key_file }}'
+  inventory:
+    group_vars:
+      all:
+        download_repo_deploy_key: /ssh/id_rsa
+verifier:
+  name: ansible
