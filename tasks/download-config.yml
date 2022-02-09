@@ -50,7 +50,7 @@
         - pip
       virtualenv: '{{ directory_venv }}'
       virtualenv_command: '{{ virtualenv_command }}'
-    become_user: '{{ application_user }}'
+    become_user: yes
 
   - name: Install Download requirements in virtualenv with pip
     pip:
