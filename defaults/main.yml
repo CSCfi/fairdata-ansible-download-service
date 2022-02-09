@@ -2,6 +2,7 @@
 # Role control variables
 # ~~~~~~~~~~~~~~~~~~~~~~
 prepare_application: True
+debug: False
 deploy_application: True
 configure_nginx: True
 delete_deployment: False
