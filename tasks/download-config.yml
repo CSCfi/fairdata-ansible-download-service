@@ -1,4 +1,8 @@
 ---
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
 - block:
   - name: Check if folders exist
     stat:
@@ -50,14 +54,14 @@
         - pip
       virtualenv: '{{ directory_venv }}'
       virtualenv_command: '{{ virtualenv_command }}'
-    become_user: '{{ application_user }}'
+    become: yes
 
   - name: Install Download requirements in virtualenv with pip
     pip:
       requirements: '{{ repo_dest }}/requirements.txt'
       virtualenv: '{{ directory_venv }}'
       virtualenv_command: '{{ virtualenv_command }}'
-    become_user: '{{ application_user }}'
+    become: yes
     notify: Restart Download systemd Services
     tags:
       - download-config
@@ -69,7 +73,7 @@
       virtualenv: '{{ directory_venv }}'
       virtualenv_command: '{{ virtualenv_command }}'
     when: application_environment != 'production'
-    become_user: '{{ application_user }}'
+    become: yes
     notify: Restart Download systemd Services
     tags:
       - download-config

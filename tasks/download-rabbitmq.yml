@@ -1,4 +1,32 @@
 ---
+- name: Add packagecloud GPG key.
+  rpm_key:
+    key: "https://packagecloud.io/gpg.key"
+    state: present
+  become: yes
+  when: "'rabbitmq-server' not in ansible_facts.packages"
+
+- name: Download RabbitMQ package.
+  get_url:
+    url: "{{ rabbitmq_rpm_url }}"
+    dest: "/tmp/{{ rabbitmq_rpm }}"
+  become: yes
+  when: "'rabbitmq-server' not in ansible_facts.packages"
+
+- name: Ensure RabbitMQ is installed
+  yum:
+    name: "/tmp/{{ rabbitmq_rpm }}"
+    state: "present"
+  become: yes
+  when: "'rabbitmq-server' not in ansible_facts.packages"
+
+- name: Ensure rabbitmq is started and enabled (if configured).
+  service:
+    name: rabbitmq-server
+    state: started
+    enabled: true
+  become: yes
+
 - name: Ensure RabbitMQ vhost exists
   rabbitmq_vhost: 
     name: "{{ rabbitmq_vhost }}"
@@ -15,6 +43,7 @@
        configure_priv: '.*'
        read_priv: '.*'
        write_priv: '.*'
+   update_password: always
    state: present
   become: yes
   tags: rabbitmq
