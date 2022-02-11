@@ -24,5 +24,6 @@ provisioner:
     group_vars:
       all:
         download_repo_deploy_key: /ssh/id_rsa
+        repo_version: 'test'
 verifier:
   name: ansible
