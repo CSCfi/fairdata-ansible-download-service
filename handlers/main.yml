@@ -4,6 +4,7 @@
     name: 'nginx'
     state: 'restarted'
   become: yes
+  when: ida_offline_sentinel_file.stat.exists == true
 
 - name: Restart Download systemd Services
   systemd:
