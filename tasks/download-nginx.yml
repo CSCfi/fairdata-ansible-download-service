@@ -9,15 +9,6 @@
     when: "'nginx' not in ansible_facts.packages"
     tags: download-nginx
 
-  - name: Ensure nginx service is enabled
-    service:
-      name: nginx
-      state: started
-      enabled: yes
-    become: yes
-    tags:
-      - download-systemd-nginx
-
   - name: Ensure log directory exist with correct permissions
     file:
       path: '{{ directory_log }}'
@@ -40,5 +31,14 @@
     tags:
       - download-nginx
       - molecule-notest
+
+  - name: Ensure nginx service is enabled
+    service:
+      name: nginx
+      enabled: yes
+      state: started
+    become: yes
+    tags:
+      - download-systemd-nginx
 
   when: not delete_deployment
