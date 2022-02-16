@@ -1,5 +1,13 @@
 ---
 - block:
+  - name: Ensure nginx is installed
+    yum:
+      name: 'nginx'
+      state: present
+      enablerepo: "epel"
+    become: yes
+    when: "'nginx' not in ansible_facts.packages"
+    tags: download-nginx
 
   - name: Ensure log directory exist with correct permissions
     file:
@@ -23,5 +31,14 @@
     tags:
       - download-nginx
       - molecule-notest
+
+  - name: Ensure nginx service is enabled
+    service:
+      name: nginx
+      enabled: yes
+      state: started
+    become: yes
+    tags:
+      - download-systemd-nginx
 
   when: not delete_deployment

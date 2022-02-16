@@ -37,15 +37,6 @@
 
   when: not delete_deployment
 
-- name: Ensure nginx service is enabled
-  service:
-    name: nginx
-    state: started
-    enabled: yes
-  become: yes
-  tags:
-    - download-systemd-nginx
-
 
 - block:
   - name: Ensure Download Service systemd services are stopped and unmasked
