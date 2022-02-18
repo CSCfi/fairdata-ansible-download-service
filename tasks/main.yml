@@ -8,6 +8,7 @@
   stat:
     path: "/mnt/storage_vol01/ida/control/OFFLINE"
   register: ida_offline_sentinel_file
+  become: yes
 
 - name: Ensure sudo is installed
   yum:
@@ -15,12 +16,14 @@
     state: present
   when: prepare_application
   tags: download-sudo
+  become: yes
 
 - name: Ensure git is installed
   yum:
     name: git
     state: present
   when: prepare_application
+  become: yes
   tags: download-git
 
 - name: Include Download Service user tasks
