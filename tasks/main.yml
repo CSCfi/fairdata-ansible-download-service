@@ -4,18 +4,26 @@
   when: debug
   tags: download-debug
 
+- name: register IDA-sentinel file
+  stat:
+    path: "/mnt/storage_vol01/ida/control/OFFLINE"
+  register: ida_offline_sentinel_file
+  become: yes
+
 - name: Ensure sudo is installed
   yum:
     name: sudo
     state: present
   when: prepare_application
   tags: download-sudo
+  become: yes
 
 - name: Ensure git is installed
   yum:
     name: git
     state: present
   when: prepare_application
+  become: yes
   tags: download-git
 
 - name: Include Download Service user tasks
@@ -35,15 +43,6 @@
 - name: install EPEL repo
   become: yes
   yum: name=epel-release state=present
-
-- name: Ensure nginx is installed
-  yum:
-    name: 'nginx'
-    state: present
-    enablerepo: "epel"
-  become: yes
-  when: prepare_application
-  tags: download-nginx
 
 - name: Include Download Service repository tasks
   include_tasks: "download-repository.yml"
