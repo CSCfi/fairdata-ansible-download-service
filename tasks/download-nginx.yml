@@ -1,14 +1,5 @@
 ---
 - block:
-  - name: Ensure nginx is installed
-    yum:
-      name: 'nginx'
-      state: present
-      enablerepo: "epel"
-    become: yes
-    when: "'nginx' not in ansible_facts.packages"
-    tags: download-nginx
-
   - name: Ensure log directory exist with correct permissions
     file:
       path: '{{ directory_log }}'
