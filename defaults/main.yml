@@ -4,7 +4,7 @@
 prepare_application: True
 debug: False
 deploy_application: True
-configure_nginx: True
+configure_nginx: False
 delete_deployment: False
 
 # Deployment variables

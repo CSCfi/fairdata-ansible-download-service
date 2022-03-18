@@ -68,5 +68,3 @@
   include_tasks: "download-nginx.yml"
   when: configure_nginx
   tags: download-nginx
-
-
