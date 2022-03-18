@@ -43,7 +43,7 @@ Run `mol converge -- --extra-vars="debug=True"`
 | :------------------ | ------- | ----- |
 | prepare_application | True    |       |
 | deploy_application  | True    |       |
-| configure_nginx     | True    |       |
+| configure_nginx     | False   |       |
 | delete_deployment   | False   |       |
 
 ### Deployment variables
