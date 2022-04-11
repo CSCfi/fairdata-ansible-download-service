@@ -1,3 +1,5 @@
+**This repository is no longer actively maintained as a public repository in GitHub.**
+
 # Fairdata Ansible Download Service
 
 Ansible role for deployment of Fairdata Download Service.
